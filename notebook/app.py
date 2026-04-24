@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import os
 
 # 1. Page Configuration
 st.set_page_config(page_title="Olist Customer Analysis", layout="wide", initial_sidebar_state="expanded")
@@ -24,12 +25,12 @@ st.markdown("""
 # 3. Data Loading
 @st.cache_data
 def load_data():
-    # Ensure karein ke rfm_data.csv file isi folder mein ho
-    df = pd.read_csv('rfm_data.csv')
+    # Pehle dekho kya file yahan hai, agar nahi toh folder ke andar dhundo
+    if os.path.exists('rfm_data.csv'):
+        df = pd.read_csv('rfm_data.csv')
+    else:
+        df = pd.read_csv('notebook/rfm_data.csv') # Ya jahan bhi file hai
     return df
-
-try:
-    rfm = load_data()
 
     # 4. Sidebar for Filters
     logo_path = "https://raw.githubusercontent.com/RaoMueez/ecommerce_rfm_analysis/main/visual_insights/ss(2).png"
